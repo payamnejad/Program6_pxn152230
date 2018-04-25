@@ -8,14 +8,42 @@
 
 #include <iostream>
 #include "cdk.h"
-
+#include <iomanip>
+#include <fstream>
+#include <string>
+#include <stdlib.h>
+#include <stdint.h>
 
 #define MATRIX_WIDTH 3 //defining the num of rows
 #define MATRIX_HEIGHT 5//defining the num of cols
-#define BOX_WIDTH 15
+#define BOX_WIDTH 15 //defining box width
 #define MATRIX_NAME_STRING "Binary File Contents"
 
+
+int length_max = 25;
+
 using namespace std;
+
+class BinaryFileHeader
+{
+public:
+ uint32_t magicNumber; /* Should be 0xFEEDFACE */
+ uint32_t versionNumber;
+ uint64_t numRecords;
+};
+
+/*
+* Records in the file have a fixed length buffer
+* that will hold a C-Style string. This is the
+* size of the fixed length buffer.
+*/
+const int maxRecordStringLength = 25;
+class BinaryFileRecord
+{
+public:
+ uint8_t strLength;
+ char stringBuffer[maxRecordStringLength];
+};
 
 
 int main()
