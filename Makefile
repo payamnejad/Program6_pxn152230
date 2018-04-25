@@ -28,4 +28,17 @@ clean:
 
 $(EXECFILE): $(OBJS)
 	$(CXX) -o $@ $(OBJS) $(LDFLAGS) $(LDLIBS)
-
+#
+# Backup Target: It is a good idea to do a backup
+#                                                                                             
+backup: clean
+	@mkdir -p ~/backups; chmod 700 ~/backups
+	@$(eval CURDIRNAME := $(shell basename `pwd`))
+	@$(eval MKBKUPNAME := ~/backups/$(PROJECTNAME)-$(shell date +'%Y.%m.%d-%H.%M.%S').tar.gz)
+	@echo
+	@echo Writing Backup file to: $(MKBKUPNAME)
+	@echo
+	@-tar zcfv $(MKBKUPNAME) ../$(CURDIRNAME)
+	@chmod 600 $(MKBKUPNAME)
+	@echo
+	@echo Done!
